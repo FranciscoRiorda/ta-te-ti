@@ -58,6 +58,12 @@ const checkWinner = (boardToCheck) => {
   return null;
 }
 
+const resetGame = () => {
+  setBoard(Array(9).fill(null))
+  setTurn(TURNS.X)
+  setWinner(null)
+}
+
 const updateBoard = (index) => {
   // No actualizar cuadro cuando tiene un valor 
   if(board[index] || winner) return;
@@ -74,7 +80,7 @@ const updateBoard = (index) => {
   // Revisar si hay un ganador
   const newWinner = checkWinner(newBoard)
   if(newWinner){
-    setWinner(newWinner);
+    setWinner(newWinner); // Actualización del estado es asíncrono
   }
 };
 
@@ -106,7 +112,31 @@ const updateBoard = (index) => {
           {TURNS.O}
         </Square>
       </section>
-    </main>
+
+        {
+          winner !== null && (
+            <section className="winner">
+              <div className="text">
+                <h2>
+                  {
+                    winner === false ? 'empate' : 'Ganó: '
+                  }
+                </h2>
+
+                  <header className="win">
+                    {winner && <Square>{winner}</Square>}
+                  </header>
+                  <footer>
+                    <button onClick={resetGame}>Empezar de nuevo</button>
+                  </footer>
+
+
+              </div>
+
+            </section>
+          )
+        }
+        </main>
     </>
   );
 }
